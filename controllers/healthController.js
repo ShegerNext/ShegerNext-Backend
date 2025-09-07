@@ -1,3 +1,4 @@
-export const healthCheck = (req, res) => {
+exports.healthCheck = async(req, res) => {
   res.json({ status: "ok" });
 };
+

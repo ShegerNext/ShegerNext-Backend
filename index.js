@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import healthRoutes from "./routes/healthRoutes.js";
+const express = require('express')
+const cors = require('cors')
+const dotenv = require('dotenv')
+const healthRoutes = require('./routes/healthRoutes.js')
 
 dotenv.config();
 
