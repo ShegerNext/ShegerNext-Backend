@@ -1,7 +1,9 @@
 import express, { Application } from "express";
-import cors from "cors"
+import cors from "cors";
 import dotenv from "dotenv";
 import healthRoutes from "./routes/healthRoutes";
+import profileRoutes from "./routes/profileRoutes";
+import complaintRoutes from "./routes/complaintRoutes";
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ app.use(express.json());
 
 // Routes
 app.use("/api", healthRoutes);
+app.use("/profiles", profileRoutes);
+app.use("/complaints", complaintRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);

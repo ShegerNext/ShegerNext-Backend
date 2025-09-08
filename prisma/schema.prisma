@@ -1,0 +1,37 @@
+// Prisma schema for ShegerNext-Backend
+// Defines Profile and Complaint models
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Profile {
+    id                 String      @id @default(uuid())
+    clerk_user_id      String?     @unique
+    full_name          String?
+    phone_number       String?
+    role               String      @default("citizen")
+    preferred_language String      @default("en")
+    created_at         DateTime    @default(now())
+    complaints         Complaint[]
+}
+
+model Complaint {
+    id                 String   @id @default(uuid())
+    clerk_user_id      String?
+    text               String
+    category           String?
+    location_latitude  Float?
+    location_longitude Float?
+    image_url          String?
+    priority           String? // You can set logic for this in code
+    status             String   @default("submitted")
+    created_at         DateTime @default(now())
+    profile            Profile? @relation(fields: [clerk_user_id], references: [clerk_user_id])
+}
