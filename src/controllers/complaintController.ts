@@ -136,6 +136,164 @@ export const getUserComplaints = async (req: Request, res: Response) => {
   }
 };
 
+export const assignComplaint = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params as { id: string };
+    const { assigned_officer_id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "id param is required" });
+    }
+
+    if (!assigned_officer_id) {
+      return res.status(400).json({
+        error: "assigned_officer_id is required",
+      });
+    }
+
+    const updatedComplaint = await Complaint.findByIdAndUpdate(
+      id,
+      { assigned_officer_id },
+      { new: true }
+    ).lean();
+
+    if (!updatedComplaint) {
+      return res.status(404).json({ error: "Complaint not found" });
+    }
+
+    return res.status(200).json(updatedComplaint);
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateEstimatedTime = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params as { id: string };
+    const { estimated_completion_time } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "id param is required" });
+    }
+
+    if (!estimated_completion_time) {
+      return res.status(400).json({
+        error: "estimated_completion_time is required",
+      });
+    }
+
+    const updatedComplaint = await Complaint.findByIdAndUpdate(
+      id,
+      { estimated_completion_time: new Date(estimated_completion_time) },
+      { new: true }
+    ).lean();
+
+    if (!updatedComplaint) {
+      return res.status(404).json({ error: "Complaint not found" });
+    }
+
+    return res.status(200).json(updatedComplaint);
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateComplaintStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params as { id: string };
+    const { status } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "id param is required" });
+    }
+
+    if (!status) {
+      return res.status(400).json({
+        error: "status is required",
+      });
+    }
+
+    const updatedComplaint = await Complaint.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    ).lean();
+
+    if (!updatedComplaint) {
+      return res.status(404).json({ error: "Complaint not found" });
+    }
+
+    return res.status(200).json(updatedComplaint);
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateComplaintUrgency = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params as { id: string };
+    const { urgency } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "id param is required" });
+    }
+
+    if (!urgency) {
+      return res.status(400).json({
+        error: "urgency is required",
+      });
+    }
+
+    if (!["low", "medium", "high"].includes(urgency)) {
+      return res.status(400).json({
+        error: "urgency must be one of: low, medium, high",
+      });
+    }
+
+    const updatedComplaint = await Complaint.findByIdAndUpdate(
+      id,
+      { urgency },
+      { new: true }
+    ).lean();
+
+    if (!updatedComplaint) {
+      return res.status(404).json({ error: "Complaint not found" });
+    }
+
+    return res.status(200).json(updatedComplaint);
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteComplaint = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params as { id: string };
+
+    if (!id) {
+      return res.status(400).json({ error: "id param is required" });
+    }
+
+    const deletedComplaint = await Complaint.findByIdAndDelete(id).lean();
+
+    if (!deletedComplaint) {
+      return res.status(404).json({ error: "Complaint not found" });
+    }
+
+    return res.status(200).json({
+      message: "Complaint deleted successfully",
+      deletedComplaint,
+    });
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 // export const rejectComplaint = async (req: Request, res: Response) => {
 //   try {
 //     const { id } = req.params as { id: string };
