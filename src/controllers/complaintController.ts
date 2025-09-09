@@ -34,6 +34,8 @@ export const createComplaint = async (req: Request, res: Response) => {
       text,
       image_url,
       status,
+      location_latitude,
+      location_longitude,
     });
 
     return res.status(201).json(created);
