@@ -95,16 +95,20 @@ export const getAdminComplaints = async (req: Request, res: Response) => {
         status: 1,
         estimated_completion_time: 1,
         assigned_officer_id: 1,
+        urgency: "low",
+        userId: 1,
       })
       .lean();
 
     const mapped = complaints.map((c: any) => ({
       id: c._id,
+      user_id: c.userId._id,
       description: c.text,
       username: c.userId?.username || "",
       status: c.status,
-      estimated_time: c.estimated_completion_time,
       assigned_officer_id: c.assigned_officer_id || null,
+      estimated_time: c.estimated_completion_time,
+      urgency: c.urgency,
       createdAt: c.createdAt,
     }));
 
