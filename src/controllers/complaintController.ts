@@ -3,7 +3,13 @@ import Complaint from "../models/Complaint"; // mongoose model
 import jwt from "jsonwebtoken";
 
 export const createComplaint = async (req: Request, res: Response) => {
-  const { text, image_url = null, status = "submitted" } = req.body;
+  const {
+    text,
+    image_url = null,
+    status = "submitted",
+    location_latitude,
+    location_longitude,
+  } = req.body;
 
   if (!text) {
     return res.status(400).json({ error: "text is required" });
@@ -39,15 +45,13 @@ export const createComplaint = async (req: Request, res: Response) => {
 
 export const getOfficerComplaints = async (req: Request, res: Response) => {
   try {
-    const category = (req.query.category as string) || "";
+    const officerId = req.query.id as string;
 
-    if (!category) {
-      return res
-        .status(400)
-        .json({ error: "category query param is required" });
+    if (!officerId) {
+      return res.status(400).json({ error: "id query param is required" });
     }
 
-    const complaints = await Complaint.find({ category })
+    const complaints = await Complaint.find({ assigned_officer_id: officerId })
       .sort({ createdAt: -1 })
       .lean();
 

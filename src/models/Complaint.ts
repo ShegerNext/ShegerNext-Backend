@@ -14,6 +14,8 @@ const ComplaintSchema = new (mongoose as any).Schema(
     urgency: { type: String, enum: ["low", "medium", "high"], default: "low" },
     assigned_officer_id: { type: String, default: null },
     estimated_completion_time: { type: Date, default: null },
+    location_latitude: { type: Number, default: null },
+    location_longitude: { type: Number, default: null },
   },
   { timestamps: true }
 );
