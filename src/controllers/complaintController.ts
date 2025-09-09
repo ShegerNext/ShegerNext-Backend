@@ -7,8 +7,8 @@ export const createComplaint = async (req: Request, res: Response) => {
     text,
     image_url = null,
     status = "submitted",
-    location_latitude,
-    location_longitude,
+    latitude,
+    longitude,
   } = req.body;
 
   if (!text) {
@@ -34,8 +34,8 @@ export const createComplaint = async (req: Request, res: Response) => {
       text,
       image_url,
       status,
-      location_latitude,
-      location_longitude,
+      latitude,
+      longitude,
     });
 
     return res.status(201).json(created);
